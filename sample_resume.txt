@@ -1,0 +1,1 @@
+John Doe\nEmail: john@example.com\nPhone: 1234567890\nSkills: React, Node.js, Express, MongoDB, TypeScript, AWS\nExperience: 5 years building full-stack apps\nEducation: B.Tech Computer Science\nKeywords: REST, CI/CD, Docker, Cloud, Microservices

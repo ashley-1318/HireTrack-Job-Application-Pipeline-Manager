@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "hiretrack-job-application-ai",
+    "start emulators": "hiretrack-job-application-ai",
+    "start web": "hiretrack-job-application-ai"
+  },
+  "targets": {},
+  "etags": {}
+}

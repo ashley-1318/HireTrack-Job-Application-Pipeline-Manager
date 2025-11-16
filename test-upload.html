@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test File Upload</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    #result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+    .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+    .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+  </style>
+</head>
+<body>
+  <h1>Test File Upload to /api/apply</h1>
+  
+  <form id="uploadForm">
+    <div class="form-group">
+      <label>Name:</label>
+      <input type="text" name="name" value="Test User" required>
+    </div>
+    
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" name="email" value="test@example.com" required>
+    </div>
+    
+    <div class="form-group">
+      <label>Phone:</label>
+      <input type="tel" name="phone" value="555-1234" required>
+    </div>
+    
+    <div class="form-group">
+      <label>Job ID:</label>
+      <input type="text" name="jobId" value="test-job-id" required>
+    </div>
+    
+    <div class="form-group">
+      <label>Cover Note:</label>
+      <textarea name="coverNote" rows="4" required>This is a test application.</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>Resume (PDF, DOC, DOCX):</label>
+      <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+    </div>
+    
+    <button type="submit">Submit Application</button>
+  </form>
+  
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = 'Uploading...';
+      resultDiv.className = '';
+      
+      const formData = new FormData(e.target);
+      
+      // Log form data for debugging
+      console.log('Form data entries:');
+      for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}: File(${value.name}, ${value.size} bytes, ${value.type})`);
+        } else {
+          console.log(`${key}: ${value}`);
+        }
+      }
+      
+      try {
+        const response = await fetch('http://localhost:5174/api/apply', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        const contentType = response.headers.get('content-type');
+        let data;
+        
+        if (contentType && contentType.includes('application/json')) {
+          data = await response.json();
+        } else {
+          data = { text: await response.text() };
+        }
+        
+        if (response.ok) {
+          resultDiv.className = 'success';
+          resultDiv.innerHTML = `<strong>Success!</strong><br><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        } else {
+          resultDiv.className = 'error';
+          resultDiv.innerHTML = `<strong>Error ${response.status}:</strong><br>${data.error || data.text || 'Unknown error'}`;
+        }
+      } catch (error) {
+        resultDiv.className = 'error';
+        resultDiv.innerHTML = `<strong>Network Error:</strong><br>${error.message}`;
+        console.error('Upload error:', error);
+      }
+    });
+  </script>
+</body>
+</html>
