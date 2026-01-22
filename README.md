@@ -780,7 +780,7 @@ Distributed under the **MIT License**. See `LICENSE` file for more information.
 ## 📧 Contact
 
 
-**Project Link**: [https://github.com/yourusername/hiretrack](https://github.com/ashley-1318/hiretrack)
+**Project Link**: [https://github.com/ashley-1318/hiretrack](https://github.com/ashley-1318/hiretrack)
 
 **Live Demo**: [https://hiretrack-job-application-ai.web.app/](https://hiretrack-job-application-ai.web.app/)
 
