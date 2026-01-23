@@ -1,6 +1,6 @@
 import { NavLink } from "@/components/NavLink";
 import { 
-  LayoutDashboard, 
+  LayoutDashboard,
   Briefcase, 
   Users, 
   GitBranch, 
